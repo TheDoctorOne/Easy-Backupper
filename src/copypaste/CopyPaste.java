@@ -25,6 +25,7 @@ public class CopyPaste implements Runnable {
     /**
      * @param args the command line arguments
      */
+    private boolean enabled = true;
     private int secretCounter = 0;
     private int timer = 0;
     private int counter = 0;
@@ -40,6 +41,14 @@ public class CopyPaste implements Runnable {
         this.timer = timer;
     }
     
+    public void setSourceFile(File source) {
+        this.source = source; 
+    }
+    
+    public void setEnabled (boolean enabled) {
+        this.enabled = enabled; 
+    }
+    
     public void setTimer (int set) {
         timeInMilis = Calendar.getInstance().getTimeInMillis();
         timer = set;
@@ -53,20 +62,19 @@ public class CopyPaste implements Runnable {
     @Override
     public void run() {
         while(true) {
-            if(timeInMilis + secretCounter * timer < Calendar.getInstance().getTimeInMillis()) {
+            if(timeInMilis + secretCounter * timer < Calendar.getInstance().getTimeInMillis() && enabled == true) {
                 counter++;
                 secretCounter++;
                 File folder = new File("backups");
                 if(!folder.exists()){
-                    System.out.println("Folder created.");
                     folder.mkdir();
                 }
-                dest = new File("backups/" + source.getName() + new SimpleDateFormat("dd-M-yyyy hh-mm-ss").format(new Date(timeInMilis + (counter * timer) - timer)));
+                dest = new File("backups/" + source.getName() + new SimpleDateFormat("dd-M-yyyy hh-mm-ss").format(new Date(Calendar.getInstance().getTimeInMillis())));
                 System.out.println("Copying file.");
                 copyFile(source, dest);
                 System.out.println("File coppied : " + dest.getAbsolutePath());
+                counterLabel.setText("Backup Counter : " + counter + "         Last Backup was : " + new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date(Calendar.getInstance().getTimeInMillis())));
             }
-            counterLabel.setText("Counter : " + counter);
         }
     }
     

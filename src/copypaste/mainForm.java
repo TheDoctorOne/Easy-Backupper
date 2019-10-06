@@ -6,6 +6,7 @@
 package copypaste;
 
 import java.io.File;
+import java.nio.file.Paths;
 import javax.swing.JFileChooser;
 
 /**
@@ -21,6 +22,7 @@ public class mainForm extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Easy Backuper by DoctorOne");
         this.setResizable(false);
+        StopButton.setEnabled(false);
     }
 
     /**
@@ -41,10 +43,11 @@ public class mainForm extends javax.swing.JFrame {
         counterLabel = new javax.swing.JLabel();
         SelectButton = new javax.swing.JButton();
         toMinuteButton = new javax.swing.JButton();
+        StopButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ConfirmButton.setText("Confirm");
+        ConfirmButton.setText("Start");
         ConfirmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConfirmButtonActionPerformed(evt);
@@ -61,7 +64,7 @@ public class mainForm extends javax.swing.JFrame {
 
         jLabel2.setText("File/Folder Name");
 
-        jLabel3.setText("Put the software same folder with the file.");
+        jLabel3.setText("To be able to select folder : Select a file inside. Delete the file name.");
 
         counterLabel.setText("Counter will start after clicking the Confirm button.");
 
@@ -79,20 +82,30 @@ public class mainForm extends javax.swing.JFrame {
             }
         });
 
+        StopButton.setText("STOP");
+        StopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StopButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(counterLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(counterLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(StopButton)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
+                .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(jLabel3))
+                        .addComponent(jLabel3)
+                        .addContainerGap(84, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ConfirmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
@@ -101,13 +114,13 @@ public class mainForm extends javax.swing.JFrame {
                                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(FileNameBox, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                                    .addComponent(FileNameBox)
                                     .addComponent(TimerBox))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(SelectButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(toMinuteButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(86, 86, 86))
+                                    .addComponent(toMinuteButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(65, 65, 65))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,10 +137,12 @@ public class mainForm extends javax.swing.JFrame {
                     .addComponent(toMinuteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addComponent(ConfirmButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(counterLabel)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(counterLabel)
+                    .addComponent(StopButton))
                 .addContainerGap())
         );
 
@@ -144,6 +159,7 @@ public class mainForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if(onceConfirmed) {
+                copyPaste.setSourceFile(new File(FileNameBox.getText()));
                 copyPaste.setTimer(Integer.parseInt(TimerBox.getText()) * 1000);
             } else {
                 copyPaste = new CopyPaste(new File(FileNameBox.getText()), counterLabel, Integer.parseInt(TimerBox.getText()) * 1000);
@@ -151,6 +167,9 @@ public class mainForm extends javax.swing.JFrame {
                 t.start();
                 onceConfirmed = true;
             }
+            copyPaste.setEnabled(true);
+            StopButton.setEnabled(true);
+            ConfirmButton.setText("Apply Changes");
         } catch (NumberFormatException ex) {
             counterLabel.setText("Put real numbers inside the timer box.");
         }
@@ -168,13 +187,20 @@ public class mainForm extends javax.swing.JFrame {
     private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectButtonActionPerformed
         // TODO add your handling code here:
         File file;
-        JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser(Paths.get("").toAbsolutePath().toString());
         int val = fileChooser.showDialog(this, "Select");
         if(val == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
             FileNameBox.setText(file.getAbsolutePath().replace("\\", "/"));
         }
     }//GEN-LAST:event_SelectButtonActionPerformed
+
+    private void StopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopButtonActionPerformed
+        // TODO add your handling code here:
+        StopButton.setEnabled(false);
+        ConfirmButton.setText("Start");
+        copyPaste.setEnabled(false);
+    }//GEN-LAST:event_StopButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,6 +241,7 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JButton ConfirmButton;
     private javax.swing.JTextField FileNameBox;
     private javax.swing.JButton SelectButton;
+    private javax.swing.JButton StopButton;
     private javax.swing.JTextField TimerBox;
     private javax.swing.JLabel counterLabel;
     private javax.swing.JLabel jLabel1;
