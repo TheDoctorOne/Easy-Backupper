@@ -14,8 +14,6 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 /**
@@ -28,7 +26,7 @@ public class CopyPaste implements Runnable {
      * @param args the command line arguments
      */
     private int timer = 0;
-    private int counter = 1;
+    private int counter = 0;
     private File source;
     private File dest;
     private long timeInMilis;
@@ -70,24 +68,43 @@ public class CopyPaste implements Runnable {
     }
     
     private void copyFile(File source, File dest) {
-    FileChannel sourceChannel = null;
-    FileChannel destChannel = null;
-    try {
-        sourceChannel = new FileInputStream(source).getChannel();
-        destChannel = new FileOutputStream(dest).getChannel();
-        destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-       } catch (FileNotFoundException ex) {
-            counterLabel.setText("File not found.");
-        } catch (IOException ex) {
-            counterLabel.setText("Something went wrong, IO Exception.");
-        }finally{
+        FileChannel sourceChannel = null;
+        FileChannel destChannel = null;
         try {
-            sourceChannel.close();
-            destChannel.close();
-        } catch (IOException ex) {
-            counterLabel.setText("IO Exception while closing streams.");
-        }
-        }
+            if(!source.isDirectory()) {
+                sourceChannel = new FileInputStream(source).getChannel();
+                destChannel = new FileOutputStream(dest).getChannel();
+                destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+            } else {
+                if (!dest.exists()) {
+                        dest.mkdir();
+                    }
+                for(File file : source.listFiles()) {
+                    if(file.isDirectory()) {
+                        copyFile(file, new File(dest.getAbsolutePath().replace("\\", "/") + "/" + file.getName() + "/"));
+                    }
+                    else
+                        copyFile(file, new File(dest.getAbsolutePath().replace("\\", "/") + "/" + file.getName()));
+                }
+                return;
+            }
+           } catch (FileNotFoundException ex) {
+               ex.printStackTrace();
+               counterLabel.setText("File not found.");
+            } catch (IOException ex) {
+                counterLabel.setText("Something went wrong, IO Exception.");
+            }finally{
+                try {
+                    if(sourceChannel != null && sourceChannel.isOpen())
+                        sourceChannel.close();
+                    if(destChannel != null && destChannel.isOpen())
+                        destChannel.close();
+                } catch (IOException ex) {
+                    counterLabel.setText("IO Exception while closing streams.");
+                } catch (NullPointerException ex) {
+                    System.out.println("Null Pointer ex.");
+                }
+            }
      }
     
 }
