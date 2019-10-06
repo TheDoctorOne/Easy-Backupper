@@ -25,6 +25,7 @@ public class CopyPaste implements Runnable {
     /**
      * @param args the command line arguments
      */
+    private int secretCounter = 0;
     private int timer = 0;
     private int counter = 0;
     private File source;
@@ -42,6 +43,7 @@ public class CopyPaste implements Runnable {
     public void setTimer (int set) {
         timeInMilis = Calendar.getInstance().getTimeInMillis();
         timer = set;
+        secretCounter = 0;
     }
     
     public int getCounter() {
@@ -51,14 +53,15 @@ public class CopyPaste implements Runnable {
     @Override
     public void run() {
         while(true) {
-            if(timeInMilis + counter * timer < Calendar.getInstance().getTimeInMillis()) {
+            if(timeInMilis + secretCounter * timer < Calendar.getInstance().getTimeInMillis()) {
                 counter++;
+                secretCounter++;
                 File folder = new File("backups");
                 if(!folder.exists()){
                     System.out.println("Folder created.");
                     folder.mkdir();
                 }
-                dest = new File("backups/" + source.getName() + new SimpleDateFormat("dd-M-yyyy hh-mm-ss").format(new Date(timeInMilis + counter * timer)));
+                dest = new File("backups/" + source.getName() + new SimpleDateFormat("dd-M-yyyy hh-mm-ss").format(new Date(timeInMilis + (counter * timer) - timer)));
                 System.out.println("Copying file.");
                 copyFile(source, dest);
                 System.out.println("File coppied : " + dest.getAbsolutePath());

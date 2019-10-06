@@ -6,6 +6,7 @@
 package copypaste;
 
 import java.io.File;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -38,6 +39,8 @@ public class mainForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         counterLabel = new javax.swing.JLabel();
+        SelectButton = new javax.swing.JButton();
+        toMinuteButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,56 +57,76 @@ public class mainForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Seconds");
+        jLabel1.setText("Time in Secs");
 
-        jLabel2.setText("FileName");
+        jLabel2.setText("File/Folder Name");
 
         jLabel3.setText("Put the software same folder with the file.");
 
         counterLabel.setText("Counter will start after clicking the Confirm button.");
 
+        SelectButton.setText("Select File");
+        SelectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelectButtonActionPerformed(evt);
+            }
+        });
+
+        toMinuteButton.setText("to Minute");
+        toMinuteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toMinuteButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(FileNameBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                            .addComponent(TimerBox, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addComponent(ConfirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(66, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(counterLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ConfirmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(FileNameBox, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                                    .addComponent(TimerBox))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SelectButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(toMinuteButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(FileNameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel2)
+                    .addComponent(SelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TimerBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel1)
+                    .addComponent(toMinuteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
                 .addComponent(ConfirmButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(counterLabel)
                 .addContainerGap())
         );
@@ -119,15 +142,39 @@ public class mainForm extends javax.swing.JFrame {
     private CopyPaste copyPaste;
     private void ConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmButtonActionPerformed
         // TODO add your handling code here:
-        if(onceConfirmed) {
-            copyPaste.setTimer(Integer.parseInt(TimerBox.getText()) * 1000);
-        } else {
-            copyPaste = new CopyPaste(new File(FileNameBox.getText()), counterLabel, Integer.parseInt(TimerBox.getText()) * 1000);
-            Thread t = new Thread(copyPaste);
-            t.start();
-            onceConfirmed = true;
+        try {
+            if(onceConfirmed) {
+                copyPaste.setTimer(Integer.parseInt(TimerBox.getText()) * 1000);
+            } else {
+                copyPaste = new CopyPaste(new File(FileNameBox.getText()), counterLabel, Integer.parseInt(TimerBox.getText()) * 1000);
+                Thread t = new Thread(copyPaste);
+                t.start();
+                onceConfirmed = true;
+            }
+        } catch (NumberFormatException ex) {
+            counterLabel.setText("Put real numbers inside the timer box.");
         }
     }//GEN-LAST:event_ConfirmButtonActionPerformed
+
+    private void toMinuteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toMinuteButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            TimerBox.setText((Integer.parseInt(TimerBox.getText()) * 60) + "");
+        } catch (NumberFormatException ex) {    
+            counterLabel.setText("Put real numbers inside the timer box.");
+        }
+    }//GEN-LAST:event_toMinuteButtonActionPerformed
+
+    private void SelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectButtonActionPerformed
+        // TODO add your handling code here:
+        File file;
+        JFileChooser fileChooser = new JFileChooser();
+        int val = fileChooser.showDialog(this, "Select");
+        if(val == JFileChooser.APPROVE_OPTION) {
+            file = fileChooser.getSelectedFile();
+            FileNameBox.setText(file.getAbsolutePath().replace("\\", "/"));
+        }
+    }//GEN-LAST:event_SelectButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,10 +214,12 @@ public class mainForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ConfirmButton;
     private javax.swing.JTextField FileNameBox;
+    private javax.swing.JButton SelectButton;
     private javax.swing.JTextField TimerBox;
     private javax.swing.JLabel counterLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton toMinuteButton;
     // End of variables declaration//GEN-END:variables
 }
