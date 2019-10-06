@@ -18,6 +18,8 @@ public class mainForm extends javax.swing.JFrame {
      */
     public mainForm() {
         initComponents();
+        this.setTitle("Easy Backuper by DoctorOne");
+        this.setResizable(false);
     }
 
     /**
