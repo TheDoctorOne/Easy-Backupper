@@ -20,7 +20,7 @@ public class mainForm extends javax.swing.JFrame {
      */
     public mainForm() {
         initComponents();
-        this.setTitle("Easy Backuper by DoctorOne");
+        this.setTitle("Easy Backupper by DoctorOne");
         this.setResizable(false);
         StopButton.setEnabled(false);
     }
